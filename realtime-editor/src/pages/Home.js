@@ -9,7 +9,7 @@ const Home = () => {
     e.preventDefault();
     const id = uuidV4();
     setRoomId(id);
-    toast.success("created new Room");
+    toast.success("Created new Room!");
   };
 
   return (
