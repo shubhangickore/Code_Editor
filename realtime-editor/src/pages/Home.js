@@ -29,7 +29,7 @@ const Home = () => {
      </div>
      <footer>
       <h4> Built with &nbsp;
-        <a href="https://github.com/shubhangickore" className ="goTo">Shubhangi kore</a>
+        <a href="https://github.com/shubhangickore">Shubhangi kore</a>
       </h4>
      </footer>
     </div>
