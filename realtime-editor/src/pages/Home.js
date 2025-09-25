@@ -5,9 +5,9 @@ const Home = () => {
     <div className ="homePagewrapper">
      <div className="formwrapper">
 
-      <img src="/code-sync.png" alt='code-sync' height = "300px" width ="300px"/>
+      <img className ="homeLogo"src="/code-sync.png" alt='code-sync'/>
 
-      <h4 className='mainLabel'>Paste invitation roomId</h4>
+      <p className='mainLabel'>Paste invitation roomId</p>
       <div className= "inputGroup">
         <input type ="text" 
         className= "inputBox" 
@@ -21,15 +21,15 @@ const Home = () => {
 
         <button className='btn joinBtn'> Join </button>
         <span className='createInfo'> 
-          If you dont have an Invite create 
+          If you dont have an Invite create &nbsp;
           <a href= "" className="createNewBtn">New Room</a>
         </span>
 
       </div>
      </div>
      <footer>
-      <h4> Built with 
-        <a href="https://github.com/shubhangickore">Shubhangi kore</a>
+      <h4> Built with &nbsp;
+        <a href="https://github.com/shubhangickore" className ="goTo">Shubhangi kore</a>
       </h4>
      </footer>
     </div>
