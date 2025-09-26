@@ -98,7 +98,7 @@ footer{
 .goTo{
   color:#1aee88;
 }
-
+/* Outer wrapper: two columns (sidebar + editor) */
 .mainWrap {
   display: flex;              /* Sidebar + Editor side by side */
   height: 100vh;              /* Full screen height */
@@ -160,13 +160,13 @@ footer{
 }
 
 .copyBtn {
-  background-color: #4caf50;  /* Green */
-  color: white;
+  background-color: #fff;  /* white */
+  color: #1e1e1e;
 }
 
 .leaveBtn {
-  background-color: #e74c3c;  /* Red */
-  color: white;
+  background-color: #1aee88;  /* green */
+  color: #1e1e1e;
 }
 
 .editorWrap {
@@ -175,4 +175,8 @@ footer{
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#realtimeEditor {
+  display: none; /* hide the raw textarea */
 }

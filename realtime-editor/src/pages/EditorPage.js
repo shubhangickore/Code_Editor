@@ -5,11 +5,12 @@ import Editor from '../components/Editor';
 const EditorPage = () => {
   const [clients, setClients] = useState([
     { socketId: 1, username: "shubhangi" },
-    { socketId: 2, username: "isu" }
+    { socketId: 2, username: "isu" },
+    {socketId:3, username: "vishu"}
   ]);
 
   return (
-    <div className="mainWrapper">
+    <div className="mainWrap">
       <div className='aside'>
         <div className='asideInner'>
           <div className='logo'>
