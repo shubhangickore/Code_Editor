@@ -98,3 +98,81 @@ footer{
 .goTo{
   color:#1aee88;
 }
+
+.mainWrap {
+  display: flex;              /* Sidebar + Editor side by side */
+  height: 100vh;              /* Full screen height */
+  width: 100vw;               /* Full screen width */
+  background-color: #1e1e1e;  /* Dark background (like VS Code) */
+  color: #fff;
+}
+
+.aside {
+  width: 250px;               /* Fixed width for sidebar */
+  background-color: #282a28;  /* Slightly different shade */
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-right: 2px solid #444;
+}
+
+.asideInner {
+  flex: 1;                    /* Take all available height */
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logoImage {
+  width: 150px;
+  height: auto;
+}
+
+.clientList {
+  flex: 1;
+  overflow-y: auto;           /* Scroll if many clients */
+  margin-top: 10px;
+}
+
+.client {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.userName {
+  margin-left: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.copyBtn {
+  background-color: #4caf50;  /* Green */
+  color: white;
+}
+
+.leaveBtn {
+  background-color: #e74c3c;  /* Red */
+  color: white;
+}
+
+.editorWrap {
+  flex: 1;                    /* Take remaining space */
+  background-color: #1e1e1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
