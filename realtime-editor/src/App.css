@@ -169,14 +169,13 @@ footer{
   color: #1e1e1e;
 }
 
-.editorWrap {
-  flex: 1;                    /* Take remaining space */
-  background-color: #1e1e1e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#realtimeEditor {
+   display:none;
 }
 
-#realtimeEditor {
-  display: none; /* hide the raw textarea */
+.CodeMirror {
+    min-height: calc(100vh - 20px);
+    font-size: 20px;
+    line-height: 1.6;
+    padding-top: 20px;
 }
