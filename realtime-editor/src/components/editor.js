@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import Codemirror from 'codemirror';
+import CodeMirror from 'codemirror';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/dracula.css';
 import 'codemirror/mode/javascript/javascript';
@@ -9,51 +9,50 @@ import ACTIONS from '../Actions';
 
 const Editor = ({ socketRef, roomId, onCodeChange }) => {
     const editorRef = useRef(null);
-    useEffect(() => {
-        async function init() {
-            editorRef.current = Codemirror.fromTextArea(
-                document.getElementById('realtimeEditor'),
-                {
-                    mode: { name: 'javascript', json: true },
-                    theme: 'dracula',
-                    autoCloseTags: true,
-                    autoCloseBrackets: true,
-                    lineNumbers: true,
-                }
-            );
 
-            editorRef.current.on('change', (instance, changes) => {
-                const { origin } = changes;
-                const code = instance.getValue();
-                onCodeChange(code);
-                if (origin !== 'setValue') {
-                    socketRef.current.emit(ACTIONS.CODE_CHANGE, {
-                        roomId,
-                        code,
-                    });
-                }
-            });
+    useEffect(() => {
+    // Initialize CodeMirror
+    const editor = CodeMirror.fromTextArea(
+        document.getElementById('realtimeEditor'),
+        {
+            mode: { name: 'javascript', json: true },
+            theme: 'dracula',
+            autoCloseTags: true,
+            autoCloseBrackets: true,
+            lineNumbers: true,
         }
-        init();
-    }, []);
+    );
+    editorRef.current = editor;
 
-    useEffect(() => {
+    // Editor change listener
+    editor.on('change', (instance) => {
+        const code = instance.getValue();
+        onCodeChange(code);
+
         if (socketRef.current) {
-            socketRef.current.on(ACTIONS.CODE_CHANGE, ({ code }) => {
-                if (code !== null) {
-                    editorRef.current.setValue(code);
-                }
-            });
+            socketRef.current.emit(ACTIONS.CODE_CHANGE, { roomId, code });
         }
+    });
 
-        return () => {
+    // Wait until editor is ready
+    const handleCodeChange = ({ code }) => {
+        if (editorRef.current && code !== editorRef.current.getValue()) {
+            editorRef.current.setValue(code);
+        }
+    };
+
     if (socketRef.current) {
-        socketRef.current.off(ACTIONS.CODE_CHANGE);
+        socketRef.current.on(ACTIONS.CODE_CHANGE, handleCodeChange);
     }
-};
-}, [socketRef.current]);
 
-    return <textarea id="realtimeEditor"></textarea>;
+    return () => {
+        if (socketRef.current) {
+            socketRef.current.off(ACTIONS.CODE_CHANGE, handleCodeChange);
+        }
+    };
+}, [socketRef, roomId, onCodeChange]);
+
+    return <textarea id="realtimeEditor" />;
 };
 
 export default Editor;
