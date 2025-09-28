@@ -16,8 +16,7 @@ function App() {
         primary: "#4aed88",
       },
     },
-  }}
-/>
+  }} />
 
       </div>
        <BrowserRouter>
