@@ -1,58 +1,62 @@
-import React, { useEffect, useRef } from 'react';
-import CodeMirror from 'codemirror';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/dracula.css';
-import 'codemirror/mode/javascript/javascript';
-import 'codemirror/addon/edit/closetag';
-import 'codemirror/addon/edit/closebrackets';
-import ACTIONS from '../Actions';
+import React, { useEffect, useRef } from "react";
+import CodeMirror from "codemirror";
+import "codemirror/lib/codemirror.css";
+import "codemirror/theme/dracula.css";
+import "codemirror/mode/javascript/javascript";
+import "codemirror/addon/edit/closetag";
+import "codemirror/addon/edit/closebrackets";
+import ACTIONS from "../Actions";
 
-const Editor = ({ socketRef, roomId, onCodeChange }) => {
-    const editorRef = useRef(null);
+const Editor = ({ socketRef, roomId }) => {
+  const editorRef = useRef(null);
 
-    useEffect(() => {
-    // Initialize CodeMirror
-    const editor = CodeMirror.fromTextArea(
-        document.getElementById('realtimeEditor'),
+  useEffect(() => {
+    async function init() {
+      editorRef.current = CodeMirror.fromTextArea(
+        document.getElementById("realtimeEditor"),
         {
-            mode: { name: 'javascript', json: true },
-            theme: 'dracula',
-            autoCloseTags: true,
-            autoCloseBrackets: true,
-            lineNumbers: true,
+          mode: { name: "javascript", json: true },
+          theme: "dracula",
+          autoCloseTags: true,
+          autoCloseBrackets: true,
+          lineNumbers: true,
         }
-    );
-    editorRef.current = editor;
+      );
 
-    // Editor change listener
-    editor.on('change', (instance) => {
+      // Emit code changes
+      editorRef.current.on("change", (instance, changes) => {
+        const { origin } = changes;
         const code = instance.getValue();
-        onCodeChange(code);
-
-        if (socketRef.current) {
-            socketRef.current.emit(ACTIONS.CODE_CHANGE, { roomId, code });
+        if (origin !== "setValue") {
+          socketRef.current.emit(ACTIONS.CODE_CHANGE, {
+            roomId,
+            code,
+          });
         }
-    });
+      });
+    }
 
-    // Wait until editor is ready
-    const handleCodeChange = ({ code }) => {
-        if (editorRef.current && code !== editorRef.current.getValue()) {
-            editorRef.current.setValue(code);
-        }
-    };
+    init();
+  }, []);
 
+  useEffect(() => {
     if (socketRef.current) {
-        socketRef.current.on(ACTIONS.CODE_CHANGE, handleCodeChange);
+      // ✅ Corrected: extract code safely
+      socketRef.current.on(ACTIONS.CODE_CHANGE, ({ code }) => {
+        if (typeof code === "string") {
+          editorRef.current.setValue(code);
+        }
+      });
     }
 
     return () => {
-        if (socketRef.current) {
-            socketRef.current.off(ACTIONS.CODE_CHANGE, handleCodeChange);
-        }
+      if (socketRef.current) {
+        socketRef.current.off(ACTIONS.CODE_CHANGE);
+      }
     };
-}, [socketRef, roomId, onCodeChange]);
+  }, [socketRef.current]);
 
-    return <textarea id="realtimeEditor" />;
+  return <textarea id="realtimeEditor"></textarea>;
 };
 
 export default Editor;
