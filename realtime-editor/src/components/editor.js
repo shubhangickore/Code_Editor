@@ -14,7 +14,7 @@ const Editor = ({ socketRef, roomId, onCodeChange }) => {
             editorRef.current = Codemirror.fromTextArea(
                 document.getElementById('realtimeEditor'),
                 {
-                    mode: { name: 'javascript', json: true },
+                    mode: { name: 'Jvascript', json: true },
                     theme: 'dracula',
                     autoCloseTags: true,
                     autoCloseBrackets: true,
